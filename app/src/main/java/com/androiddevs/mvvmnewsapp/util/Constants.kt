@@ -1,0 +1,8 @@
+package com.androiddevs.mvvmnewsapp.util
+
+class Constants {
+    companion object{
+        const val API_KEY = "b0b63326a7314f97b49fa83777988fe4"
+        const val BASE_URL = "hhtps://newsapi.org"
+    }
+}
