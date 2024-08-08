@@ -6,11 +6,12 @@ import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androiddevs.mvvmnewsapp.R
 import com.androiddevs.mvvmnewsapp.adapters.NewsAdapter
 import com.androiddevs.mvvmnewsapp.ui.NewsActivity
-import com.androiddevs.mvvmnewsapp.ui.NewsViewModal
+import com.androiddevs.mvvmnewsapp.ui.NewsViewModel
 import com.androiddevs.mvvmnewsapp.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
 import com.androiddevs.mvvmnewsapp.util.Resource
 import kotlinx.android.synthetic.main.fragment_search_news.etSearch
@@ -22,14 +23,26 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
-    lateinit var viewModal: NewsViewModal
+    lateinit var viewModel: NewsViewModel
     lateinit var newsAdapter: NewsAdapter
     val TAG  ="SearchNewsFragment"
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModal = (activity as NewsActivity).viewModal
+        viewModel = (activity as NewsActivity).viewModel
         setupRecyclerView()
+
+        newsAdapter.setonItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("article",it)
+            }
+            findNavController().navigate(
+                R.id.action_searchNewsFragment_to_articleFragment,
+                bundle
+            )
+        }
 
         var job: Job? =null
         etSearch.addTextChangedListener{editable->
@@ -38,13 +51,13 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
                 delay(SEARCH_NEWS_TIME_DELAY)
                 editable?.let{
                     if(editable.toString().isNotEmpty()){
-                        viewModal.searchNews(editable.toString())
+                        viewModel.searchNews(editable.toString())
                     }
                 }
             }
         }
 
-        viewModal.searchNews.observe(viewLifecycleOwner, Observer { response->
+        viewModel.searchNews.observe(viewLifecycleOwner, Observer { response->
             when(response){
                 is Resource.Success->{
                     hideProgressBar()

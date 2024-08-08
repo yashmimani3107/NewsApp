@@ -8,9 +8,8 @@ import com.androiddevs.mvvmnewsapp.repository.NewsRepository
 import com.androiddevs.mvvmnewsapp.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import retrofit2.http.Query
 
-class NewsViewModal(
+class NewsViewModel(
     val newsRepository: NewsRepository
 ) : ViewModel(){
 

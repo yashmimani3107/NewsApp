@@ -13,15 +13,15 @@ import kotlinx.android.synthetic.main.activity_news.newsNavHostFragment
 
 class NewsActivity : AppCompatActivity() {
 
-    lateinit var viewModal: NewsViewModal
+    lateinit var viewModel: NewsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
 
         val newsRepository = NewsRepository(ArticleDatabase(this))
-        val viewModalProviderFactory = NewsViewModalProviderFactory(newsRepository)
-        viewModal = ViewModelProvider(this,viewModalProviderFactory).get(NewsViewModal::class.java)
+        val viewModalProviderFactory = NewsViewModelProviderFactory(newsRepository)
+        viewModel = ViewModelProvider(this,viewModalProviderFactory).get(NewsViewModel::class.java)
         bottomNavigationView.setupWithNavController(newsNavHostFragment.findNavController())
     }
 }
