@@ -20,8 +20,8 @@ class NewsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_news)
 
         val newsRepository = NewsRepository(ArticleDatabase(this))
-        val viewModalProviderFactory = NewsViewModelProviderFactory(newsRepository)
-        viewModel = ViewModelProvider(this,viewModalProviderFactory).get(NewsViewModel::class.java)
+        val viewModelProviderFactory = NewsViewModelProviderFactory(newsRepository)
+        viewModel = ViewModelProvider(this,viewModelProviderFactory).get(NewsViewModel::class.java)
         bottomNavigationView.setupWithNavController(newsNavHostFragment.findNavController())
     }
 }
